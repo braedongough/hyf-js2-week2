@@ -6,67 +6,49 @@ const button = document.getElementById('submit')
 const form = document.getElementById('spirit-form')
 
 const spiritAnimals = [
-  'Tiger',
-  'bear',
-  'dolphin',
-  'ox',
-  'penguin',
-  'dragon',
-  'orc',
+    'Tiger',
+    'bear',
+    'dolphin',
+    'ox',
+    'penguin',
+    'dragon',
+    'orc',
 ]
 
-const mapFunction = (value, index) => {
-  if (index === 1) {
-    return
-  } else {
-    return value
-  }
-}
-
-const newSpirit = spiritAnimals.map()
-
-console.log(newSpirit)
 function getRandomNumber() {
-  return Math.floor(Math.random() * spiritAnimals.length)
+    return Math.floor(Math.random() * spiritAnimals.length)
 }
 
-let eventType = 'submit'
+function handleShowSpiritAnimal(event) {
+    const userInput = input.value.trim()
 
-const mouseover = document.getElementById('mouseover')
-const click = document.getElementById('click')
-const change = document.getElementById('change')
+    if (userInput) {
+        const spiritAnimal = spiritAnimals[getRandomNumber()]
 
-mouseover.addEventListener('click', function () {
-  eventType = 'mouseover'
-  console.log(eventType)
+        const userSpiritName = userInput + ' - ' + spiritAnimal
+        const userTemplateString = `${userInput} - ${spiritAnimal}`
+
+        h2.innerHTML = userTemplateString
+    }
+
+    if (!userInput) {
+        console.log('there is not input here')
+    }
+}
+
+let eventType = 'click'
+
+const radios = document.getElementsByName('event-type')
+
+function handleRadioClick(event) {
+    button.removeEventListener(eventType, handleShowSpiritAnimal)
+
+    eventType = event.target.value
+    button.addEventListener(eventType, handleShowSpiritAnimal)
+}
+
+radios.forEach((radio) => {
+    radio.addEventListener('click', handleRadioClick)
 })
 
-click.addEventListener('click', function () {
-  eventType = 'click'
-  console.log(eventType)
-})
-
-change.addEventListener('click', function () {
-  eventType = 'change'
-  console.log(eventType)
-})
-
-button.addEventListener('click', function (event) {
-  event.preventDefault()
-  const userInput = input.value.trim()
-
-  if (userInput) {
-    const spiritAnimal = spiritAnimals[getRandomNumber()]
-
-    const userSpiritName = userInput + ' - ' + spiritAnimal
-    const userTemplateString = `${userInput} - ${spiritAnimal}`
-
-    h2.innerHTML = userTemplateString
-  }
-
-  if (!userInput) {
-    console.log('there is not input here')
-  }
-
-  input.innerHtml = ''
-})
+button.addEventListener(eventType, handleShowSpiritAnimal)
